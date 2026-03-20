@@ -98,7 +98,10 @@ const Dashboard = () => {
             fetchPatients();
             setShowRegister(false);
             setNewPatient({ name: '', age: '', diabetes_duration_years: '', contact: '' });
-        } catch (e) { alert('Network Error') }
+        } catch (e) { 
+            console.error(e);
+            alert('Network Error: ' + e.message + '\nTarget: ' + (import.meta.env.VITE_BACKEND_URL || 'Local Proxy'));
+        }
     };
 
     const handleFileUpload = async (e) => {
@@ -222,7 +225,7 @@ const Dashboard = () => {
                         <h1 style={{ fontSize: 19, fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em' }}>{selectedPatient ? selectedPatient.name : 'Doctor Dashboard'}</h1>
                         {selectedPatient
                             ? <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>ID: {selectedPatient._id} · {selectedPatient.contact}</p>
-                            : <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>Select a patient from the sidebar to view records</p>}
+                            : <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>Backend: {import.meta.env.VITE_BACKEND_URL || 'Local Proxy'}</p>}
                     </div>
                     {analysisResults.length > 0 && (
                         <div style={{ display: 'flex', gap: 10 }}>
