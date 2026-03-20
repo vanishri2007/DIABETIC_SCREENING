@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+motor
+pydantic
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+torch
+torchvision
+Pillow
+numpy
+opencv-python-headless
