@@ -50,7 +50,11 @@ const Dashboard = () => {
     useEffect(() => { fetchPatients(); }, []);
 
     const fetchPatients = async () => {
-        try { const r = await fetch('/patients/'); setPatients(await r.json()); } catch (e) { }
+        try { 
+            const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+            const r = await fetch(`${API_BASE}/patients/`); 
+            setPatients(await r.json()); 
+        } catch (e) { }
     };
 
     const sorted = [...patients].sort((a, b) => {
@@ -73,13 +77,15 @@ const Dashboard = () => {
         setPrescreen({ bp_systolic: '', bp_diastolic: '', vision_left: '', vision_right: '', blood_glucose: '', notes: '' });
         setMedications([]);
         setActivePanel('screening');
-        fetch(`/screening/history/${p._id}`).then(r => r.json()).then(setHistory).catch(()=>{});
+        const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+        fetch(`${API_BASE}/screening/history/${p._id}`).then(r => r.json()).then(setHistory).catch(()=>{});
     };
 
     const registerPatient = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch('/patients/', { 
+            const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+            const res = await fetch(`${API_BASE}/patients/`, { 
                 method: 'POST', 
                 headers: { 'Content-Type': 'application/json' }, 
                 body: JSON.stringify({ ...newPatient, age: newPatient.age ? parseInt(newPatient.age) : 0, diabetes_duration_years: newPatient.diabetes_duration_years ? parseInt(newPatient.diabetes_duration_years) : 0 }) 
@@ -107,7 +113,8 @@ const Dashboard = () => {
             fd.append('file', file);
             fd.append('patient_id', selectedPatient._id);
             try {
-                const res = await fetch('/screening/predict', { method: 'POST', body: fd });
+                const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+                const res = await fetch(`${API_BASE}/screening/predict`, { method: 'POST', body: fd });
                 const data = await res.json();
                 if (!res.ok) setUploadError(p => p + `\n${file.name}: ${data.detail}`);
                 else results.push(data.result);

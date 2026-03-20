@@ -9,11 +9,11 @@ export default defineConfig({
   server: {
     port: 3000,
     proxy: {
-      '/auth': 'http://https://diabetic-screening.onrender.com',
-      '/patients': 'http://https://diabetic-screening.onrender.com',
-      '/screening': 'http://https://diabetic-screening.onrender.com',
-      '/chatbot': 'http://https://diabetic-screening.onrender.com',
-      '/static': 'http://https://diabetic-screening.onrender.com'
+      '/auth': 'https://diabetic-screening.onrender.com',
+      '/patients': 'https://diabetic-screening.onrender.com',
+      '/screening': 'https://diabetic-screening.onrender.com',
+      '/chatbot': 'https://diabetic-screening.onrender.com',
+      '/static': 'https://diabetic-screening.onrender.com'
     }
   }
 })

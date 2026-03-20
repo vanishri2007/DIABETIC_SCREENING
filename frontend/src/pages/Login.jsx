@@ -18,7 +18,8 @@ const Login = () => {
         if (activeRole === 'patient') {
             localStorage.setItem('role', 'patient');
             try {
-                const res = await fetch('/patients/');
+                const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+                const res = await fetch(`${API_BASE}/patients/`);
                 const data = await res.json();
                 if (data && data.length > 0) {
                     const match = data.find(p => p.name?.toLowerCase().replace(/\s+/g,'_') === username.toLowerCase()) || data[0];

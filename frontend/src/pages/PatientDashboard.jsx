@@ -26,9 +26,10 @@ const PatientDashboard = () => {
 
     useEffect(() => {
         if (!patientId) return;
-        fetch('/patients/').then(r=>r.json()).then(data=>{ const p=data.find(x=>x._id===patientId); if(p) setPatientDetails(p); }).catch(()=>{});
-        fetch(`/screening/history/${patientId}`).then(r=>r.json()).then(setHistory).catch(()=>{});
-        fetch(`/patients/${patientId}/reminders`).then(r=>r.json()).then(setReminders).catch(()=>{});
+        const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+        fetch(`${API_BASE}/patients/`).then(r=>r.json()).then(data=>{ const p=data.find(x=>x._id===patientId); if(p) setPatientDetails(p); }).catch(()=>{});
+        fetch(`${API_BASE}/screening/history/${patientId}`).then(r=>r.json()).then(setHistory).catch(()=>{});
+        fetch(`${API_BASE}/patients/${patientId}/reminders`).then(r=>r.json()).then(setReminders).catch(()=>{});
     }, [patientId]);
 
     useEffect(() => { chatEndRef.current?.scrollIntoView({behavior:'smooth'}); }, [chatHistory, activeTab]);
@@ -36,7 +37,8 @@ const PatientDashboard = () => {
     const addReminder = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch(`/patients/${patientId}/reminders`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(newReminder)});
+            const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+            const res = await fetch(`${API_BASE}/patients/${patientId}/reminders`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(newReminder)});
             if(res.ok){const data=await res.json();setReminders(data.reminders);setNewReminder({time:'',medicine:''});}
         } catch(e){}
     };
@@ -74,7 +76,8 @@ const PatientDashboard = () => {
         const um = {sender:'user',text:chatInput,time:new Date().toLocaleTimeString()};
         setChatHistory(p=>[...p,um]); setChatInput('');
         try {
-            const res = await fetch('/chatbot/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:um.text,language})});
+            const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+            const res = await fetch(`${API_BASE}/chatbot/`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:um.text,language})});
             if(res.ok){
                 const d=await res.json();
                 setChatHistory(p=>[...p,{sender:'bot',text:d.response,time:new Date().toLocaleTimeString()}]);
