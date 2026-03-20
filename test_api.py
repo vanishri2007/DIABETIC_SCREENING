@@ -2,7 +2,7 @@ import requests
 import json
 
 # 1. Create patient
-r1 = requests.post('http://localhost:8000/patients/', json={'name':'Test','age':55,'diabetes_duration_years':1,'contact':'1'})
+r1 = requests.post('http://https://diabetic-screening.onrender.com/patients/', json={'name':'Test','age':55,'diabetes_duration_years':1,'contact':'1'})
 print("Patient result:", r1.text)
 pid = r1.json().get('_id')
 
@@ -11,6 +11,6 @@ img_data = b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x05\x00\x00\x00\x05
 with open('test_retina.png', 'wb') as f:
     f.write(img_data)
 
-r2 = requests.post('http://localhost:8000/screening/predict', data={'patient_id': pid}, files={'file': open('test_retina.png', 'rb')})
+r2 = requests.post('http://https://diabetic-screening.onrender.com/screening/predict', data={'patient_id': pid}, files={'file': open('test_retina.png', 'rb')})
 print("Screening result:", r2.status_code)
 print(r2.text)

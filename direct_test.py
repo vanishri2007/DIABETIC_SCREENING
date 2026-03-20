@@ -4,7 +4,7 @@ import urllib.parse
 import json
 
 # 1. Register
-req = urllib.request.Request('http://localhost:8000/patients/', data=json.dumps({"name":"x","age":30,"contact":"y","diabetes_duration_years":1}).encode('utf-8'), headers={'Content-Type': 'application/json'})
+req = urllib.request.Request('http://https://diabetic-screening.onrender.com/patients/', data=json.dumps({"name":"x","age":30,"contact":"y","diabetes_duration_years":1}).encode('utf-8'), headers={'Content-Type': 'application/json'})
 res = urllib.request.urlopen(req)
 pid = json.loads(res.read())['_id']
 
